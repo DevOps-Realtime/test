@@ -1,2 +1,2 @@
-# test
-this repo is used for testing purpose
+# DevSecOps-Pipeline-CI
+This repo will DevSecOps Pipeline to Build &amp; Deploy the application
