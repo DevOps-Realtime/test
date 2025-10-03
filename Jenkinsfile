@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Build'){
             steps{
-                sh "cd $WORKSPACE && mvn clean install"
+                sh "cd $WORKSPACE/test && mvn clean install"
             }
         }
     }
