@@ -23,8 +23,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker build -t $DOCKER_USER/test-app:latest $WORKSPACE/test
-                        docker tag $DOCKER_USER/test-app:latest saikirangude/petadata:latest
+                        docker build -t saikirangude/test-app:latest $WORKSPACE/test
+                        docker tag saikirangude/test-app:latest saikirangude/petadata:latest
                         docker push saikirangude/petadata:latest
                     """
                 }
