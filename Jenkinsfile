@@ -29,8 +29,14 @@ pipeline {
                         -Dsonar.login=$SONAR_AUTH_TOKEN
                     """
                 }
+            }
+        }
         stage('Docker Build & Push'){
             steps{
+                script{
+                    // Copy WAR to the build context directory
+                    sh "cp $WORKSPACE/test/target/spring-boot-example2-0.0.1-SNAPSHOT.war $WORKSPACE/test/"
+                }
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u $DOCKER_USER -p $DOCKER_PASS

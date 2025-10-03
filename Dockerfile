@@ -6,7 +6,7 @@ RUN groupadd -r spring && useradd -r -g spring spring
 
 # Create app directory and set permissions
 WORKDIR /app
-COPY --chown=target/spring:spring spring-boot-example2-0.0.1-SNAPSHOT.war /app/app.war
+COPY --chown=spring:spring spring-boot-example2-0.0.1-SNAPSHOT.war /app/app.war
 
 # Switch to non-root user
 USER spring
