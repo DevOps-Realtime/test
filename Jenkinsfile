@@ -24,6 +24,7 @@ pipeline {
                     sh '''
                         /opt/sonar-scanner/bin/sonar-scanner \
                         -Dsonar.projectKey=DevOps-Realtime_test \
+                        -Dsonar.organization=devops-realtime-1 \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=https://sonarcloud.io/ \
                         -Dsonar.login=$SONAR_AUTH_TOKEN
@@ -31,16 +32,26 @@ pipeline {
                 }
             }
         }
-        stage('Docker Build & Push'){
+        stage('Docker Build'){
             steps{
                 script{
                     // Copy WAR to the build context directory
                     sh "cp $WORKSPACE/test/target/spring-boot-example2-0.0.1-SNAPSHOT.war $WORKSPACE/test/"
                 }
+                sh "docker build -t saikirangude/test-app:latest $WORKSPACE/test"
+            }
+        }
+        stage('Trivy Scan') {
+            steps {
+                sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL saikirangude/test-app:latest'
+            }
+        }
+        stage('Docker Push'){
+            steps{
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker build -t saikirangude/test-app:latest $WORKSPACE/test
+                        docker push saikirangude/test-app:latest
                         docker tag saikirangude/test-app:latest saikirangude/petadata:latest
                         docker push saikirangude/petadata:latest
                     """
