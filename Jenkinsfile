@@ -21,13 +21,11 @@ pipeline {
         stage('SonarScan'){
             steps{
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_AUTH_TOKEN')]) {
-                    sh """
-                        sonar-scanner \
-                        -Dsonar.projectKey=DevOps-Realtime_test \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io/ \
-                        -Dsonar.login=$SONAR_AUTH_TOKEN
-                    """
+                    sh 'sonar-scanner ' +
+                       '-Dsonar.projectKey=DevOps-Realtime_test ' +
+                       '-Dsonar.sources=. ' +
+                       '-Dsonar.host.url=https://sonarcloud.io/ ' +
+                       '-Dsonar.login=' + SONAR_AUTH_TOKEN
                 }
             }
         }
