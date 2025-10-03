@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Cleanup Workspace'){
+            steps{
+                cleanWs()
+            }
+        }
         stage('Checkout') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDS', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PAT')]) {
