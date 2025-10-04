@@ -23,21 +23,21 @@ pipeline {
                 sh "cd $WORKSPACE/test && mvn clean install"
             }
         }
-        stage('SonarScan'){
-            steps{
-                withSonarQubeEnv('sonarqube') {
-                    sh '''
-                    ${SCANNER_HOME}/sonar-scanner \
-                    -Dsonar.projectName=test \
-                    -Dsonar.projectKey=DevOps-Realtime_test \
-                    -Dsonar.organization=devops-realtime-1 \
-                    -Dsonar.java.binaries=${WORKSPACE}/test/target/classes \
-                    -Dsonar.sources=${WORKSPACE}/test/src/ \
-                    -Dsonar.branch.name=${BRANCH_NAME}
-                    '''
-                }
-            }
-        }
+        // stage('SonarScan'){
+        //     steps{
+        //         withSonarQubeEnv('sonarqube') {
+        //             sh '''
+        //             ${SCANNER_HOME}/sonar-scanner \
+        //             -Dsonar.projectName=test \
+        //             -Dsonar.projectKey=DevOps-Realtime_test \
+        //             -Dsonar.organization=devops-realtime-1 \
+        //             -Dsonar.java.binaries=${WORKSPACE}/test/target/classes \
+        //             -Dsonar.sources=${WORKSPACE}/test/src/ \
+        //             -Dsonar.branch.name=${BRANCH_NAME}
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Docker Build'){
             steps{
                 script{
