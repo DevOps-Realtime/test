@@ -31,8 +31,8 @@ pipeline {
                     -Dsonar.projectName=test \
                     -Dsonar.projectKey=DevOps-Realtime_test \
                     -Dsonar.organization=devops-realtime-1 \
-                    -Dsonar.java.binaries=${WORKSPACE}/target/classes \
-                    -Dsonar.sources=${WORKSPACE}/src/ \
+                    -Dsonar.java.binaries=${WORKSPACE}/test/target/classes \
+                    -Dsonar.sources=${WORKSPACE}/test/src/ \
                     -Dsonar.branch.name=${BRANCH_NAME}
                     '''
                 }
