@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        SCANNER_HOME = '/opt/sonar-scanner'
+    }
+
     stages {
         stage('Cleanup Workspace'){
             steps{
@@ -20,14 +25,15 @@ pipeline {
         }
         stage('SonarScan'){
             steps{
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_AUTH_TOKEN')]) {
+                withSonarQubeEnv('sonarqube') {
                     sh '''
-                        /opt/sonar-scanner/bin/sonar-scanner \
-                        -Dsonar.projectKey=DevOps-Realtime_test \
-                        -Dsonar.organization=devops-realtime-1 \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io/ \
-                        -Dsonar.login=$SONAR_AUTH_TOKEN
+                    ${SCANNER_HOME}/sonar-scanner \
+                    -Dsonar.projectName=test \
+                    -Dsonar.projectKey=DevOps-Realtime_test \
+                    -Dsonar.organization=devops-realtime-1 \
+                    -Dsonar.java.binaries=${WORKSPACE}/target/classes \
+                    -Dsonar.sources=${WORKSPACE}/src/ \
+                    -Dsonar.branch.name=${BRANCH_NAME}
                     '''
                 }
             }
